@@ -45,7 +45,13 @@
 			<artifactId>spring-integration-websocket</artifactId>
 		</dependency>
 
-		
+		<dependency>
+    <groupId>com.fasterxml.jackson.core</groupId>
+    <artifactId>jackson-databind</artifactId>
+    <!-- Make sure to specify the version compatible with your Spring Boot version -->
+   
+</dependency>
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
