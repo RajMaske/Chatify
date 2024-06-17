@@ -1,6 +1,10 @@
 package com.chatapp.config;
 
+import java.util.List;
+
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -19,5 +23,9 @@ public class WebMvcConfig implements WebMvcConfigurer {
                 .allowedOrigins("https://*.example.com")
                 .allowedMethods("GET", "POST")
                 .allowCredentials(true);
+    }
+    @Override
+    public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
+        converters.add(new MappingJackson2HttpMessageConverter());
     }
 }
