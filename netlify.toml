@@ -1,5 +1,5 @@
 [build]
-  command = "mvn clean package"
+  command = "apt-get install -y maven && mvn clean package"
   publish = "Chatify/target"
 
 [functions]
