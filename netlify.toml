@@ -1,3 +1,6 @@
 [build]
   command = "mvn clean package"
-  publish = "target/chatapp-0.0.1-SNAPSHOT.jar"
+  publish = "Chatify/target"
+
+[functions]
+  directory = "Chatify/netlify/functions"
