@@ -1,0 +1,13 @@
+services:
+  - id: backend
+    name: spring-boot-app
+    env:
+      SPRING_PROFILES_ACTIVE: production
+      ALLOWED_ORIGINS: "*"
+    port: 8080
+    internal_port: 8080
+    disk: 1024
+    memory: 512
+    routes:
+      - src: /.*
+        dest: backend

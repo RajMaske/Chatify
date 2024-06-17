@@ -1,6 +1,0 @@
-[build]
-  command = "./mvnw clean package"
-  publish = "Chatify/target"
-
-[functions]
-  directory = "Chatify/netlify/functions"
