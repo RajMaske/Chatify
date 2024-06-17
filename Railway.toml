@@ -1,0 +1,22 @@
+# Railway.toml
+
+# Project information
+name = "triumphant-truth"
+description = "Optional description of this project"
+project_id = "e94dc3ea-0622-41b1-940c-8428ed171222"
+
+# Environment variables
+[env]
+SPRING_PROFILES_ACTIVE = "production"
+
+# Services configuration
+[[services]]
+id = "backend"
+name = "spring-boot-app"
+port = 8080
+internal_port = 8080
+disk = 1024
+memory = 512
+
+[services.env]
+ALLOWED_ORIGINS = "https://chatify-production-1936.up.railway.app"
