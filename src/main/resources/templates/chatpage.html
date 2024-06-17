@@ -63,7 +63,7 @@
         .footer button {
             width: 60px;
         }
-        .online-users {
+  .online-users {
             position: fixed;
             top: 50px;
             right: 0;
@@ -80,13 +80,44 @@
             cursor: pointer;
             margin-bottom: 5px;
         }
-        .online-users .user:hover {
+        .online-users .user .username {
+            display: none; /* Initially hide usernames */
+        }
+        .online-users .user:hover .username {
+            display: inline-block; /* Show username on hover */
             color: #007bff;
             text-decoration: underline;
+            cursor: pointer;
         }
-        .online-users .user.active {
+        .online-users .user.active .username {
             font-weight: bold;
         }
+        .online-users-count {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 24px;
+            height: 24px;
+            line-height: 24px;
+            text-align: center;
+            border-radius: 50%;
+            background-color: #007bff;
+            color: #fff;
+            font-size: 12px;
+            font-weight: bold;
+            cursor: pointer; /* Add cursor pointer for clickable effect */
+        }
+        .online-users-count.hidden {
+            display: none; /* Initially hide the count */
+        }
+        .online-users .user .username.visible {
+    display: inline-block; /* Show username when visible */
+    color: #007bff;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+
     </style>
 </head>
 <body>
@@ -95,9 +126,7 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container">
         <a class="navbar-brand" href="#">Chatify</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+        
        
     </div>
 </nav>
@@ -113,6 +142,7 @@
     <div id="onlineUsersList">
         <!-- Online users will be dynamically added here -->
     </div>
+    <div id="onlineUsersCount" class="online-users-count">0</div>
 </div>
 
 <!-- Footer -->
@@ -199,48 +229,74 @@
             window.location.href = '/'; // Redirect to home or another page after leaving
         }
 
-        function showMessage(message) {
-            var messageElement = document.createElement('div');
-            messageElement.classList.add('message');
+      function showMessage(message) {
+    // Create a new div for the message
+    var messageElement = document.createElement('div');
+    messageElement.classList.add('message');
 
-            if (message.sender === username) {
-                messageElement.classList.add('sent');
-            } else {
-                messageElement.classList.add('received');
-            }
+    // Add appropriate class based on message sender
+    if (message.sender === username) {
+        messageElement.classList.add('sent');
+    } else {
+        messageElement.classList.add('received');
+    }
 
-            var usernameElement = document.createElement('div');
-            usernameElement.classList.add('username');
-            usernameElement.textContent = message.sender;
+    // Create elements for username and text content
+    var usernameElement = document.createElement('div');
+    usernameElement.classList.add('username');
+    usernameElement.textContent = message.sender;
 
-            var textElement = document.createElement('div');
-            textElement.classList.add('text');
-            textElement.textContent = message.content;
+    var textElement = document.createElement('div');
+    textElement.classList.add('text');
+    textElement.textContent = message.content;
 
-            messageElement.appendChild(usernameElement);
-            messageElement.appendChild(textElement);
+    // Append username and text content to message element
+    messageElement.appendChild(usernameElement);
+    messageElement.appendChild(textElement);
 
-            var chatContainer = document.getElementById('messages');
-            chatContainer.appendChild(messageElement);
-            chatContainer.scrollTop = chatContainer.scrollHeight; // Scroll to bottom
-        }
+    // Get the chat container element
+    var chatContainer = document.getElementById('messages');
+    
+    // Append the message element to the chat container
+    chatContainer.appendChild(messageElement);
 
-        function updateOnlineUsers() {
+    // Use requestAnimationFrame to ensure scrolling happens after the browser has rendered the update
+     messageElement.scrollIntoView({ behavior: 'smooth', block: 'end' });
+}
+
+
+       
+        
+    function updateOnlineUsers() {
             var onlineUsersElement = document.getElementById('onlineUsersList');
             onlineUsersElement.innerHTML = '';
             onlineUsers.forEach(function (user) {
                 var userElement = document.createElement('div');
                 userElement.classList.add('user');
-                userElement.textContent = user;
-                userElement.setAttribute('data-toggle', 'tooltip');
-                userElement.setAttribute('title', 'Click to view username');
-                userElement.addEventListener('click', function () {
-                    alert('Username: ' + user);
+
+                var usernameElement = document.createElement('span');
+                usernameElement.classList.add('username');
+                usernameElement.textContent = user;
+
+                userElement.appendChild(usernameElement);
+
+                document.getElementById('onlineUsersCount').addEventListener('click', function () {
+					
+                    usernameElement.classList.toggle('visible');
+                    setTimeout(function () {
+                        usernameElement.classList.remove('visible');
+                    }, 3000); // Hide after 3 seconds
                 });
+
                 onlineUsersElement.appendChild(userElement);
             });
+
+            var onlineUsersCountElement = document.getElementById('onlineUsersCount');
+            onlineUsersCountElement.textContent = onlineUsers.length;
         }
     });
+
+
     /*]]>*/
 </script>
 
